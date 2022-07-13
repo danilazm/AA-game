@@ -15,6 +15,7 @@ import middlewareManager.middlewares.*;
 import elementManager.*;
 import elementManager.elements.*;
 import config.Config;
+import utils.Tools;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -26,7 +27,7 @@ public class MenuPanel extends APanel implements ActionListener{
 
     JButton playButton;
     JButton levelButton;
-    JButton scoreButton;
+    //JButton scoreButton;
 
     private final Color backgroundColor = new Color(0x32ff98);
     private final Color buttonsColor = new Color(0xd48a98);
@@ -39,22 +40,22 @@ public class MenuPanel extends APanel implements ActionListener{
 
         playButton = new JButton();
         levelButton = new JButton();
-        scoreButton = new JButton();
+        //scoreButton = new JButton();
 
         //Adding to ArrayList
         buttons.add(playButton);
         buttons.add(levelButton);
-        buttons.add(scoreButton);
+        //buttons.add(scoreButton);
 
         //Set Bounds
         playButton.setBounds(275,500,75,50);
         levelButton.setBounds(50,500,75,50);
-        scoreButton.setBounds(50,425,75,50);
+        //scoreButton.setBounds(50,425,75,50);
 
 
         playButton.setIcon(new ImageIcon("src/Icons/play.png"));
         levelButton.setIcon(new ImageIcon("src/Icons/levels.png"));
-        scoreButton.setIcon(new ImageIcon("src/Icons/score.png"));
+        //scoreButton.setIcon(new ImageIcon("src/Icons/score.png"));
 
         this.add(playButton);
         for(JButton b: buttons){
@@ -67,7 +68,7 @@ public class MenuPanel extends APanel implements ActionListener{
                 public void mouseEntered(MouseEvent e) {
                     b.setBackground(buttonsColor);
                 }
-    
+
                 @Override
                 public void mouseExited(MouseEvent e) {
                     b.setBackground(backgroundColor);
@@ -101,6 +102,9 @@ public class MenuPanel extends APanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==playButton){
+            middlewareManager.setMiddlewareValue("currentLevel",
+                    (Tools.getWhichLevelWeShouldStartWith(middlewareManager.getMiddlewareValue("userName")) == 0) ? ""+1
+                            : ""+(Tools.getWhichLevelWeShouldStartWith(middlewareManager.getMiddlewareValue("userName"))+1));
             middlewareManager.addMiddleware(new ClearLevel(), new MiddlewareLocation());
             middlewareManager.addMiddleware(new LoadGame(Integer.parseInt(middlewareManager.getMiddlewareValue("currentLevel"))), new MiddlewareLocation());
             middlewareManager.addMiddleware(new TransitionPanels("menu", "game"), new MiddlewareLocation());
@@ -108,9 +112,9 @@ public class MenuPanel extends APanel implements ActionListener{
         else if(e.getSource()==levelButton){
             middlewareManager.addMiddleware(new TransitionPanels("menu", "levels", false), new MiddlewareLocation());
         }
-        else if(e.getSource()==scoreButton){
-            middlewareManager.addMiddleware(new TransitionPanels("menu", "pause",false), new MiddlewareLocation());
-        }
+        // else if(e.getSource()==scoreButton){
+        //     middlewareManager.addMiddleware(new TransitionPanels("menu", "pause",false), new MiddlewareLocation());
+        // }
 
     }
 }

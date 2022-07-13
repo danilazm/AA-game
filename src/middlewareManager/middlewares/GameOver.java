@@ -23,7 +23,7 @@ public class GameOver extends Middleware {
         //setting red background
         APanel gamePanel = this.frameManager.getAPanel(panelId);
         gamePanel.setBackground(Color.RED);
-        GamePanel g = (GamePanel)gamePanel;
+        GamePanel g = (GamePanel)frameManager.getAPanel("game");
         g.setButtonColor(Color.RED);
         //playing game over sound //note that no sound will be played most of the times
         this.setValue("rotationSpeed", "0");
